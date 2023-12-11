@@ -8,6 +8,7 @@ import { Result, Welcome } from "../../data/CarParkInfoData";
 type Props = {
     fetchInfo: Welcome | undefined;
     vehicleType: string
+    parkAddress: string;
 }
 
 type State = {
@@ -43,13 +44,26 @@ export default class ResultTable extends React.Component<Props, State>{
                                 //         <ResultTableRow data={item} />
                                 //     )
                                 // )
-                                this.props.fetchInfo?.results.map(
-                                    (result: Result) => (
-                                            <ResultTableRow data={result} vehicleType={this.props.vehicleType} key={result.park_Id}/>
+                                this.props.parkAddress ?
+                                    this.props.fetchInfo?.results
+                                        .filter(
+                                            (newResult: Result) => 
+                                            newResult.displayAddress.includes(this.props.parkAddress)
                                         )
-                                )
-                            } 
-                            
+
+                                        .map(
+                                            (newResult: Result) => (
+                                                <ResultTableRow data={newResult} vehicleType={this.props.vehicleType} key={newResult.park_Id} />
+                                            )
+                                        )
+                                    :
+                                    this.props.fetchInfo?.results.map(
+                                        (result: Result) => (
+                                            <ResultTableRow data={result} vehicleType={this.props.vehicleType} key={result.park_Id} />
+                                        )
+                                    )
+                            }
+
                         </tbody>
                     </Table>
                 </div>

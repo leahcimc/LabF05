@@ -6,8 +6,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "./SearchBar.css";
 
+
+
+
 type Props = {
     handleSelectionStateChange: (newState: string) => void
+    handleAddressStateChange: (newState: string) => void
 }
 
 type State = {
@@ -34,6 +38,11 @@ export default class SearchBar extends React.Component<Props, State>{
         console.log(event.target.value);
     }
 
+    handleAddressStateChange = (event) => {
+        this.props.handleAddressStateChange(event?.target.value);
+        console.log(event?.target.value);
+    }
+
     render() {
         return (
             <>
@@ -46,7 +55,7 @@ export default class SearchBar extends React.Component<Props, State>{
                             </Col>
 
                             <Col sm={8}>
-                                <Form.Control
+                                <Form.Control onChange={this.handleAddressStateChange}
                                     type="text"
                                     id="inputPassword5"
                                     placeholder="e.g. Kwun Tong"

@@ -6,11 +6,13 @@ import { Welcome } from "../../data/CarParkInfoData";
 import { fetchCarParkInfo } from "../../api/getCarParkInfo";
 
 type Props = {
+    
 }
 
 type State = {
     fetchInfo: Welcome | undefined;
     vType: string
+    parkAddress: string;
 }
 
 export default class LandingPage extends React.Component<Props, State>{
@@ -18,7 +20,8 @@ export default class LandingPage extends React.Component<Props, State>{
         super(props);
         this.state = {
             fetchInfo: undefined,
-            vType: "privateCar"
+            vType: "privateCar",
+            parkAddress: ''
         }
     }
 
@@ -32,6 +35,16 @@ export default class LandingPage extends React.Component<Props, State>{
         console.log(this.state.vType)
     }
 
+    handleAddressStateChange = (newState: string) => {
+        this.setState(
+            {
+                parkAddress: newState
+            }
+        )
+        console.log(newState)
+        console.log(this.state.parkAddress)
+    }
+
     getCarParkInfo = (info: Welcome) => {
         this.setState({
             fetchInfo: info
@@ -42,13 +55,21 @@ export default class LandingPage extends React.Component<Props, State>{
         fetchCarParkInfo(this.getCarParkInfo);
     }
 
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
+        if(prevState !== this.state){
+            console.log(prevState.vType + this.state.vType)
+            console.log(prevState.parkAddress + this.state.parkAddress)
+        }
+    }
+
+
 
     render(){
         return(
             <>
                 <MyNavBar />
-                <SearchBar handleSelectionStateChange={this.handleSelectionStateChange}/>
-                <ResultTable fetchInfo={this.state.fetchInfo} vehicleType={this.state.vType}/>
+                <SearchBar handleSelectionStateChange={this.handleSelectionStateChange} handleAddressStateChange={this.handleAddressStateChange}/>
+                <ResultTable fetchInfo={this.state.fetchInfo} vehicleType={this.state.vType} parkAddress={this.state.parkAddress}/>
             </>
         )
     }

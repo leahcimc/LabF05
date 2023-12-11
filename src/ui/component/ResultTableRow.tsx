@@ -18,9 +18,9 @@ export default class ResultTableRow extends React.Component<Props>{
 
     constructor(props: Props) {
         super(props);
-        console.log(this.props.vehicleType);
-        console.log(this.matchType);
-        
+        // console.log(this.props.vehicleType);
+        // console.log(this.matchType);
+
     }
 
 
@@ -48,7 +48,17 @@ export default class ResultTableRow extends React.Component<Props>{
                         {this.props.data.displayAddress}
                     </td>
                     <td>
-                        {this.props.data.privateCar?.space}
+                        {
+                            this.props.vehicleType === 'privateCar' ?
+                                this.props.data.privateCar?.space :
+                                this.props.vehicleType === 'LGV' ?
+                                    this.props.data.LGV?.space :
+                                    this.props.vehicleType === 'HGV' ?
+                                        this.props.data.HGV?.space :
+                                        this.props.vehicleType === 'coach' ?
+                                            this.props.data.coach?.space :
+                                            this.props.data.motorCycle?.space
+                        }
                     </td>
                     <td>
                         <Button variant="primary" href={`https://www.google.com/maps/preview/@${this.props.data.latitude},${this.props.data.longitude},18z`}>Map</Button>{' '}
